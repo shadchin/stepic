@@ -13,3 +13,5 @@ then
 sudo ln -s /home/box/web/etc/gunicorn.conf   /etc/gunicorn.d/ask
 fi
 sudo /etc/init.d/gunicorn restart
+
+sudo /etc/init.d/mysql restart
