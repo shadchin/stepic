@@ -12,12 +12,18 @@ class Question(models.Model):
     author = User()
     likes = models.ForeignKey(Likes, null=True, on_delete=models.SET_NULL)
     questtion = models.ForeignKey(Answer, null=True, on_delete=models.SET_NULL)
+    class META:
+        db_table = 'question'
 
 class Answer(models.Model):
     text = models.TextField()
     added_at = models.DateTimeField()
     author = User()
+    class META:
+        db_table = 'answer'
 
 class Likes(models.Model):
     added_at = models.DateTimeField()
     author = User()
+    class META:
+        db_table = 'likes'
