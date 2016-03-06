@@ -20,7 +20,7 @@ class Likes(models.Model):
 
 
 class Question(models.Model):
-    title = models.CharField()
+    title = models.CharField(max_length=255)
     text = models.TextField()
     added_at = models.DateTimeField()
     rating = models.IntegerField()
