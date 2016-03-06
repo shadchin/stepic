@@ -1,6 +1,6 @@
-if [ -f /etc/nginx/sites-enabled/default.conf ]
+if [ -f /etc/nginx/sites-enabled/default ]
 then
-sudo rm  /etc/nginx/sites-enabled/default.conf
+sudo rm  /etc/nginx/sites-enabled/default
 fi
 if [ ! -f /etc/nginx/sites-enabled/test.conf ]
 then
