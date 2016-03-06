@@ -8,7 +8,7 @@ sudo ln -s /home/box/web/etc/nginx.conf  /etc/nginx/sites-enabled/test.conf
 fi
 sudo /etc/init.d/nginx restart
 
-if [ ! -f /etc/gunicorn.d/test ]
+if [ ! -f /etc/gunicorn.d/ask ]
 then
 sudo ln -s /home/box/web/etc/gunicorn.conf   /etc/gunicorn.d/ask
 fi
