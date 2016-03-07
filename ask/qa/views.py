@@ -31,14 +31,14 @@ def paginate(request, qs):
 def main(request):
     quest = Question.objects.order_by('-added_at')
     paginator, page = paginate(request, quest)
-    return render(request, '/home/box/web/ask/qa/template/main.html', {'paginator': paginator, 'page': page, 'questions': page.object_list})
+    return render(request, 'main.html', {'paginator': paginator, 'page': page, 'questions': page.object_list})
 
 
 @require_GET
 def popular(request):
     quest = Question.objects.order_by('-rating')
     paginator, page = paginate(request, quest)
-    return render(request, '/home/box/web/ask/qa/template/popular.html', {'paginator': paginator, 'page': page, 'questions': page.object_list})
+    return render(request, 'popular.html', {'paginator': paginator, 'page': page, 'questions': page.object_list})
 
 
 @require_GET
@@ -48,4 +48,4 @@ def question(request, id):
         answers = Answer.objects.filter(question=quest).all()
     except Answer.DoesNotExist:
         answers = []
-    return render(request, '/home/box/web/ask/qa/template/question.html', {'quest': quest, 'answers': answers})
+    return render(request, 'question.html', {'quest': quest, 'answers': answers})
