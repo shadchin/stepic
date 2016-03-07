@@ -16,5 +16,5 @@ sudo /etc/init.d/gunicorn restart
 
 sudo /etc/init.d/mysql restart
 
-sudo pip install --upgrade django
+#sudo pip install --upgrade django
 sudo bash initdb.sh
