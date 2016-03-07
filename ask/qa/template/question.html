@@ -1,0 +1,6 @@
+<h1>{{ quest.title }}</h1>
+<p>{{ quest.text }}</p>
+<h2>Answer</h2>
+{% for ans in answers %}
+    <p>{{ ans.text }}</p>
+{% endfor %}

@@ -1,0 +1,3 @@
+*.pyc
+ask/db.sqlite3
+ask/qa/migrations/*
