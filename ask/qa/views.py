@@ -29,7 +29,7 @@ def paginate(request, qs):
 
 @require_GET
 def main(request):
-    quest = Question.objects.order_by('-added_at')
+    quest = Question.objects.order_by('-id')
     paginator, page = paginate(request, quest)
     return render(request, 'main.html', {'paginator': paginator, 'page': page, 'questions': page.object_list})
 
