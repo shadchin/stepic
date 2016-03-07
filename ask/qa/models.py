@@ -7,7 +7,7 @@ from django.core.urlresolvers import reverse
 # Create your models here.
 class Likes(models.Model):
     added_at = models.DateTimeField()
-    author = User()
+    author = models.OneToOneField(User, null=True)
     class META:
         db_table = 'likes'
 
@@ -17,7 +17,7 @@ class Question(models.Model):
     text = models.TextField()
     added_at = models.DateTimeField()
     rating = models.IntegerField(null=True)
-    author = User()
+    author = models.OneToOneField(User, null=True)
     likes = models.ForeignKey(Likes, null=True, on_delete=models.SET_NULL)
 
     def get_url(self):
@@ -30,7 +30,7 @@ class Question(models.Model):
 class Answer(models.Model):
     text = models.TextField()
     added_at = models.DateTimeField()
-    author = User()
+    author = models.OneToOneField(User, null=True)
     question = models.ForeignKey(Question, null=True, on_delete=models.SET_NULL)
     class META:
         db_table = 'answer'
