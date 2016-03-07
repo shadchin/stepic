@@ -7,7 +7,7 @@ from ask import settings
 
 # Create your models here.
 class Likes(models.Model):
-    added_at = models.DateTimeField()
+    added_at = models.DateTimeField(null=True)
     author = models.ForeignKey(settings.AUTH_USER_MODEL)
     class META:
         db_table = 'likes'
@@ -16,7 +16,7 @@ class Likes(models.Model):
 class Question(models.Model):
     title = models.CharField(max_length=255)
     text = models.TextField()
-    added_at = models.DateTimeField()
+    added_at = models.DateTimeField(null=True)
     rating = models.IntegerField(null=True)
     author = models.ForeignKey(settings.AUTH_USER_MODEL)
     likes = models.ForeignKey(Likes, null=True, on_delete=models.SET_NULL)
@@ -30,7 +30,7 @@ class Question(models.Model):
 
 class Answer(models.Model):
     text = models.TextField()
-    added_at = models.DateTimeField()
+    added_at = models.DateTimeField(null=True)
     author = models.ForeignKey(settings.AUTH_USER_MODEL)
     question = models.ForeignKey(Question, null=True, on_delete=models.SET_NULL)
     class META:
