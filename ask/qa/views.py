@@ -43,7 +43,6 @@ def popular(request):
     return render(request, 'popular.html', {'paginator': paginator, 'page': page, 'questions': page.object_list})
 
 
-@require_GET
 def question(request, id):
     quest = get_object_or_404(Question, id=id)
     try:
