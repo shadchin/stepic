@@ -1,6 +1,7 @@
 <h1>Main</h1>
+<p>{{ user.username }}</p>
 {% for q in questions %}
-  <h2>{{ q.title }}</h2>
+  <h2>({{ q.author }}) {{ q.title }}</h2>
   <a href="{{ q.get_url }}">link</a>
   <hr>
 {% endfor %}

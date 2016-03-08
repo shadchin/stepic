@@ -2,8 +2,9 @@ from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_GET, require_POST
 from django.core.paginator import Paginator, EmptyPage
+from django.contrib.auth import authenticate, login
 
-from qa.forms import AskForm, AnswerForm
+from qa.forms import AskForm, AnswerForm, SignupForm, LoginForm
 from qa.models import Question, Answer
 
 
@@ -33,7 +34,8 @@ def paginate(request, qs):
 def main(request):
     quest = Question.objects.order_by('-id')
     paginator, page = paginate(request, quest)
-    return render(request, 'main.html', {'paginator': paginator, 'page': page, 'questions': page.object_list})
+    user = request.user
+    return render(request, 'main.html', {'paginator': paginator, 'page': page, 'questions': page.object_list, 'user': user})
 
 
 @require_GET
@@ -49,7 +51,7 @@ def question(request, id):
         answers = Answer.objects.filter(question=quest).all()
     except Answer.DoesNotExist:
         answers = []
-    a = Answer(question=quest)
+    a = Answer(question=quest, author=request.user)
     form = AnswerForm(instance=a)
     return render(request, 'question.html', {'quest': quest, 'answers': answers, 'form': form})
 
@@ -61,8 +63,9 @@ def ask(request):
             quest = form.save()
             return HttpResponseRedirect(quest.get_url())
     else:
-        form = AskForm()
-        return render(request, 'ask.html', {'form': form})
+        quest = Question(author=request.user)
+        form = AskForm(instance=quest)
+    return render(request, 'ask.html', {'form': form})
 
 
 @require_POST
@@ -72,3 +75,32 @@ def answer(request):
         ans = form.save()
         quest = ans.question
         return HttpResponseRedirect(quest.get_url())
+
+
+def mylogin(request):
+    if request.method == "POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = request.POST['username']
+            password = request.POST['password']
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return HttpResponseRedirect('/')
+    else:
+        form = LoginForm()
+    return render(request, 'login.html', {'form': form})
+
+def singup(request):
+    if request.method == "POST":
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            username = request.POST['username']
+            password = request.POST['password']
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return HttpResponseRedirect('/')
+    else:
+        form = SignupForm()
+    return render(request, 'signup.html', {'form': form})
