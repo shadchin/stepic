@@ -61,7 +61,7 @@ def ask(request):
         form = AskForm(request.POST)
         if form.is_valid():
             quest = form.save()
-        return HttpResponseRedirect(quest.get_url())
+            return HttpResponseRedirect(quest.get_url())
     else:
         user = request.user
         if user.is_active:
