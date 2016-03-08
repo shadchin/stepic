@@ -1,9 +1,11 @@
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, get_object_or_404
-from django.views.decorators.http import require_GET
+from django.views.decorators.http import require_GET, require_POST
 from django.core.paginator import Paginator, EmptyPage
 
+from qa.forms import AskForm, AnswerForm
 from qa.models import Question, Answer
+
 
 def test(request, *args, **kwargs):
     return HttpResponse('OK')
@@ -48,4 +50,26 @@ def question(request, id):
         answers = Answer.objects.filter(question=quest).all()
     except Answer.DoesNotExist:
         answers = []
-    return render(request, 'question.html', {'quest': quest, 'answers': answers})
+    a = Answer(question=quest)
+    form = AnswerForm(instance=a)
+    return render(request, 'question.html', {'quest': quest, 'answers': answers, 'form': form})
+
+
+def ask(request):
+    if request.method == "POST":
+        form = AskForm(request.POST)
+        if form.is_valid():
+            quest = form.save()
+            return HttpResponseRedirect(quest.get_url())
+    else:
+        form = AskForm()
+        return render(request, 'ask.html', {'form': form})
+
+
+@require_POST
+def answer(request):
+    form = AnswerForm(request.POST)
+    if form.is_valid():
+        ans = form.save()
+        quest = ans.question
+        return HttpResponseRedirect(quest.get_url())

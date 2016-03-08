@@ -4,3 +4,16 @@
 {% for ans in answers %}
     <p>{{ ans.text }}</p>
 {% endfor %}
+<hr>
+{% for e in form.non_field_errors %}
+  <div class="alert alert-danger">{{ e }}</div>
+{% endfor %}
+<form class="form-horizontal" method="post" action="/answer/">
+  <fieldset>
+    {% csrf_token %}
+    {{ form.as_p}}
+  </fieldset>
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary">Ответить</button>
+  </div>
+</form>
