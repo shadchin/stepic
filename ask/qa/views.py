@@ -63,7 +63,11 @@ def ask(request):
             quest = form.save()
             return HttpResponseRedirect(quest.get_url())
     else:
-        quest = Question(author=request.user)
+        user = request.user
+        if user.is_active:
+            quest = Question(author=user)
+        else:
+            quest = Question()
         form = AskForm(instance=quest)
     return render(request, 'ask.html', {'form': form})
 
