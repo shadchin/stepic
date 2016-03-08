@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_GET, require_POST
 from django.core.paginator import Paginator, EmptyPage
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
 
 from qa.forms import AskForm, AnswerForm, SignupForm, LoginForm
 from qa.models import Question, Answer
@@ -64,10 +65,9 @@ def ask(request):
             return HttpResponseRedirect(quest.get_url())
     else:
         user = request.user
-        if user.is_active:
-            quest = Question(author=user)
-        else:
-            quest = Question()
+        if not user.is_active:
+            user = User.objects.get(pk=1)
+        quest = Question(author=user)
         form = AskForm(instance=quest)
     return render(request, 'ask.html', {'form': form})
 
