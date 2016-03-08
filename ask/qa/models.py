@@ -2,13 +2,12 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.core.urlresolvers import reverse
-
-from ask import settings
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Likes(models.Model):
     added_at = models.DateTimeField(null=True)
-    author = models.ForeignKey(settings.AUTH_USER_MODEL)
+    author = models.ForeignKey(User)
     class META:
         db_table = 'likes'
 
@@ -18,7 +17,7 @@ class Question(models.Model):
     text = models.TextField()
     added_at = models.DateTimeField(null=True)
     rating = models.IntegerField(null=True)
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
+    author = models.ForeignKey(User, null=True)
     likes = models.ForeignKey(Likes, null=True, on_delete=models.SET_NULL)
 
     def get_url(self):
@@ -31,7 +30,7 @@ class Question(models.Model):
 class Answer(models.Model):
     text = models.TextField()
     added_at = models.DateTimeField(null=True)
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
+    author = models.ForeignKey(User, null=True)
     question = models.ForeignKey(Question, null=True, on_delete=models.SET_NULL)
     class META:
         db_table = 'answer'
