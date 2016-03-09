@@ -59,6 +59,7 @@ def question(request, id):
 
 def ask(request):
     if request.method == "POST":
+        request.POST['author'] = u'1'
         form = AskForm(request.POST)
         if form.is_valid():
             quest = form.save()
