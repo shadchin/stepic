@@ -61,13 +61,8 @@ def ask(request):
     print(request.user)
     if request.method == "POST":
         print(request.POST)
-        form = AskForm(request.POST, initial={'author': request.user.username})
-        print(form['author'])
-        print(form['author'].value())
-        try:
-            form['author'] = request.user.username
-        except Exception as e:
-            print(e)
+        print(request.user.id)
+        form = AskForm(request.POST, initial={'author': request.user.id})
         print(form['author'].value())
         if form.is_valid():
             print("Valid ask")
