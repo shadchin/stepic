@@ -61,7 +61,10 @@ def ask(request):
     print(request.user)
     if request.method == "POST":
         print(request.POST)
-        request.POST.update({'author': request.user})
+        try:
+            request.POST.update({'author': request.user})
+        except Exception as e:
+            print(e)
         print(request.POST)
         form = AskForm(request.POST)
         if form.is_valid():
