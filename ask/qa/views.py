@@ -4,6 +4,7 @@ from django.views.decorators.http import require_GET, require_POST
 from django.core.paginator import Paginator, EmptyPage
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
+from django.http.request import QueryDict
 
 from qa.forms import AskForm, AnswerForm, SignupForm, LoginForm
 from qa.models import Question, Answer
@@ -60,9 +61,10 @@ def question(request, id):
 def ask(request):
     print(request.user)
     if request.method == "POST":
-        print(request.POST)
-        print(request.user.id)
-        form = AskForm(request.POST, initial={'author': str(request.user.id)})
+        q = QueryDict(request.POST.urlencode(), mutable=True)
+        q['author'] = str(request.user.id)
+        print(q)
+        form = AskForm(q)
         print(form['author'].value())
         if form.is_valid():
             print("Valid ask")
