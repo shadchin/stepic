@@ -58,9 +58,9 @@ def question(request, id):
 
 
 def ask(request):
+    print(request.user)
     if request.method == "POST":
         print(request.POST)
-        #request.POST['author'] = u'1'
         form = AskForm(request.POST)
         if form.is_valid():
             print("Valid ask")
@@ -91,11 +91,8 @@ def mylogin(request):
             username = request.POST['username']
             password = request.POST['password']
             user = authenticate(username=username, password=password)
-            print(user)
             if user is not None:
                 login(request, user)
-                print(user)
-                print(request.user)
                 return HttpResponseRedirect('/')
     else:
         form = LoginForm()
@@ -105,13 +102,11 @@ def singup(request):
     if request.method == "POST":
         form = SignupForm(request.POST)
         if form.is_valid():
-            print(request.user)
             user = form.save()
             username = request.POST['username']
             password = request.POST['password']
             user = authenticate(username=username, password=password)
             login(request, user)
-            print(request.user)
             return HttpResponseRedirect('/')
     else:
         form = SignupForm()
