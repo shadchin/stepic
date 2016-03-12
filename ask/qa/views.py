@@ -60,9 +60,10 @@ def question(request, id):
 def ask(request):
     if request.method == "POST":
         print(request.POST)
-        request.POST['author'] = u'1'
+        #request.POST['author'] = u'1'
         form = AskForm(request.POST)
         if form.is_valid():
+            print("Valid ask")
             quest = form.save()
             return HttpResponseRedirect(quest.get_url())
     else:
