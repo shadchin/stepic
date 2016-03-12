@@ -61,12 +61,7 @@ def ask(request):
     print(request.user)
     if request.method == "POST":
         print(request.POST)
-        try:
-            request.POST.update({'author': request.user})
-        except Exception as e:
-            print(e)
-        print(request.POST)
-        form = AskForm(request.POST)
+        form = AskForm(request.POST, initial={'author': request.user})
         if form.is_valid():
             print("Valid ask")
             quest = form.save()
