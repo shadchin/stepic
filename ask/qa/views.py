@@ -61,7 +61,7 @@ def ask(request):
     print(request.user)
     if request.method == "POST":
         print(request.POST)
-        form = AskForm(request.POST, initial={'author': request.user})
+        form = AskForm(request.POST, initial={'author': request.user.username})
         print(form['author'])
         print(form['author'].value())
         try:
