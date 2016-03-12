@@ -62,8 +62,9 @@ def ask(request):
     if request.method == "POST":
         print(request.POST)
         form = AskForm(request.POST, initial={'author': request.user})
-        print(form.fields['author'])
-        print(form.fields['author'].value())
+        print(form['author'])
+        print(form['author'].value())
+        
         if form.is_valid():
             print("Valid ask")
             quest = form.save()
